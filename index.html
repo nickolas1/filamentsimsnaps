@@ -26,8 +26,8 @@
             <div class="row">
                 <div class="12u">
                     <div class="header">
-                        <h1>Ceci n'est pas un real simulation</h1>
-                        <p>test bed for giving collaborators an overview of a simulation</p>
+                        <h1>Simulation overview</h1>
+                        <p>drag the slider around to view simulation snapshots</p>
                     </div>
                 </div>
             </div>
@@ -68,12 +68,14 @@
     var imagePrefix;
         
     $(function() {
+        // determine dimensions
         containerwidth = parseInt(d3.select(".container").style("width"));
         panelwidth = (containerwidth < 800) ? 256: 512;
         panelheight = panelwidth;
         panelspace = panelwidth / 16;
         imagePrefix = "data/images" + panelwidth.toString() + "/";
-        console.log(containerwidth,panelwidth,panelspace);
+        
+        // initialize everything
         setupPanels();
         setupSlider();
         populatePanels();    
@@ -110,12 +112,12 @@
                 .attr("id", "overlay" + i.toString());
         }
     };
-    
-    
+      
     var populatePanels = function() {
         showImages();
         //showSinks();
     };
+    
     
     var showImages = function() {
         /* ========================== */
@@ -148,7 +150,7 @@
         // follow http://bl.ocks.org/mbostock/6452972  
         // for styling and basic functionality 
         var timeSliderX = d3.scale.linear()
-            .domain([0, 2])
+            .domain([0, 2.1])
             .range([0, slw])
             .clamp(true);
         
@@ -169,7 +171,7 @@
             .call(d3.svg.axis()
                 .scale(timeSliderX)
                 .orient("bottom")
-                .ticks(3)
+                .ticks(2)
                 .tickFormat(function(d) { return d + " Myr"}))
             .select("domain")
             .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
@@ -199,7 +201,7 @@
                 snappedTime = (function(num) { 
                     return Math.floor((num / snapStep) + 0.5) * snapStep; 
                 })(desiredTime);
-                snap = Math.min(Math.round(snappedTime / snapStep + 1), 26);
+                snap = Math.min(Math.round(snappedTime / snapStep + 1), 29);
                 brush.extent([snappedTime, snappedTime]);
             }
             handle.attr("cx", timeSliderX(snappedTime));
